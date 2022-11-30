@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
  * fileName : Lawd
  * author :  KimSangHoon
  * date : 2022/11/29
+ * --spring.batch.job.names=lawdInsertJob -filePath=LAWD_CODE.txt
  */
 @Entity
 @Getter
