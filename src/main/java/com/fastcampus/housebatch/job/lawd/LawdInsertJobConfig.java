@@ -1,6 +1,7 @@
 package com.fastcampus.housebatch.job.lawd;
 
 import com.fastcampus.housebatch.core.entity.Lawd;
+import com.fastcampus.housebatch.core.service.LawdService;
 import com.fastcampus.housebatch.job.validator.FilePathParameterValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import java.util.List;
-
 import static com.fastcampus.housebatch.job.lawd.LawdFieldSetMapper.*;
 
 /**
@@ -34,6 +33,8 @@ import static com.fastcampus.housebatch.job.lawd.LawdFieldSetMapper.*;
 public class LawdInsertJobConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+
+    private final LawdService lawdService;
 
     @Bean
     public Job lawdInsertJob(Step lawdInsertStep) {
@@ -64,7 +65,7 @@ public class LawdInsertJobConfig {
                 .name("lawdFieItemReader")
                 .delimited()
                 .delimiter("\t")
-                .names(LAWD_CD, LAWD_DONG,EXIST)
+                .names(LAWD_CD, LAWD_DONG, EXIST)
                 .linesToSkip(1)
                 .fieldSetMapper(new LawdFieldSetMapper())
                 .resource(new ClassPathResource(filePath))
@@ -73,12 +74,8 @@ public class LawdInsertJobConfig {
 
     @Bean
     @StepScope
-    public ItemWriter<Lawd> lawdItemWriter(){
-        return new ItemWriter<Lawd>() {
-            @Override
-            public void write(List<? extends Lawd> items) throws Exception {
-                items.forEach(System.out::println);
-            }
-        };
+    public ItemWriter<Lawd> lawdItemWriter() {
+//        return items -> items.forEach(System.out::println);
+        return items -> items.forEach(lawdService::upsert);
     }
 }
