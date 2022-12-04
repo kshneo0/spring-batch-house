@@ -18,7 +18,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -89,6 +88,7 @@ public class AptDealInsertJobConfig {
         return new GuLawdTasklet(lawdRepository);
     }
 
+    /*
     @JobScope
     @Bean
     public Step contextPrintStep(Tasklet contextPrintTasklet) {
@@ -109,7 +109,7 @@ public class AptDealInsertJobConfig {
             return RepeatStatus.FINISHED;
         };
     }
-
+*/
 
     @JobScope
     @Bean

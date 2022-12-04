@@ -40,7 +40,7 @@ public class AptDealService {
 
     private Apt getAptOrNew(AptDealDto dto) {
         Apt apt = aptRepository.findAptByAptNameAndJibun(dto.getAptName(), dto.getJibun())
-                .orElseGet(() -> Apt.from(dto));
+                .orElseGet(() -> Apt.of(dto));
         return aptRepository.save(apt);
     }
 }
