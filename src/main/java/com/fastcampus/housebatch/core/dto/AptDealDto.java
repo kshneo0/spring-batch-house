@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * fileName : AptDealSto
@@ -52,6 +53,10 @@ public class AptDealDto {
 
     @XmlElement(name = "지번")
     private String jibun;
+
+    public String getJibun(){
+        return Optional.ofNullable(jibun).orElse("");
+    }
 
     @XmlElement(name = "지역코드")
     private String regionalCode;
