@@ -1,10 +1,13 @@
 package com.fastcampus.housebatch.core.dto;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * fileName : AptDealSto
@@ -20,6 +23,11 @@ public class AptDealDto {
 
     @XmlElement(name = "거래금액")
     private String dealAmount;
+
+    public Long getDealAmount(){
+
+        return Long.parseLong(dealAmount.replaceAll(",","").trim());
+    }
 
     @XmlElement(name = "건축년도")
     private Integer builtYear;
@@ -54,6 +62,22 @@ public class AptDealDto {
     @XmlElement(name = "해제사유발생일")
     private String dealCanceledDate;
 
+    public LocalDate getDealCanceledDate(){
+        if(StringUtils.isBlank((dealCanceledDate))){
+            return null;
+        }
+
+        return LocalDate.parse(dealCanceledDate.trim(), DateTimeFormatter.ofPattern("yy.MM.dd"));
+    }
+
     @XmlElement(name = "해제여부")
     private String dealCanceled;
+
+    public boolean isDealCanceled(){
+        return "O".equals(dealCanceled.trim());
+    }
+
+    public LocalDate getDealDate(){
+        return LocalDate.of(year, month, day);
+    }
 }
